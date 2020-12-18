@@ -100,64 +100,6 @@ jobs:
       with:
         name: macos
         path: build/bin/SolveSpace.dmg
-        
-  deploy_snap_amd64:
-    needs: [test_ubuntu, test_windows, test_macos]
-    name: Deploy AMD64 Snap
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set Up Source
-      run: rsync --filter=":- .gitignore" -r ./ pkg/snap/solvespace-snap-src
-    - name: Build Snap
-      id: build
-      uses: diddlesnaps/snapcraft-multiarch-action@v1
-      with:
-        path: pkg/snap
-    - name: Upload & Release to Edge
-      if: github.event_name == 'push'
-      uses: snapcore/action-publish@v1
-      with:
-        store_login: ${{ secrets.SNAPSTORE_LOGIN }}
-        snap: ${{ steps.build.outputs.snap }}
-        release: edge
-    - name: Upload & Release to Beta + Edge
-      if: github.event_name == 'release'
-      uses: snapcore/action-publish@v1
-      with:
-        store_login: ${{ secrets.SNAPSTORE_LOGIN }}
-        snap: ${{ steps.build.outputs.snap }}
-        release: edge,beta
-    
-  deploy_snap_arm64:
-    needs: [test_ubuntu, test_windows, test_macos]
-    name: Deploy ARM64 Snap
-    runs-on: ubuntu-latest
-    steps:
-    - uses: docker/setup-qemu-action@v1
-    - uses: actions/checkout@v2
-    - name: Set Up Source
-      run: rsync --filter=":- .gitignore" -r ./ pkg/snap/solvespace-snap-src
-    - name: Build Snap
-      id: build
-      uses: diddlesnaps/snapcraft-multiarch-action@v1
-      with:
-        path: pkg/snap
-        architecture: arm64
-    - name: Upload & Release to Edge
-      if: github.event_name == 'push'
-      uses: snapcore/action-publish@v1
-      with:
-        store_login: ${{ secrets.SNAPSTORE_LOGIN }}
-        snap: ${{ steps.build.outputs.snap }}
-        release: edge
-    - name: Upload & Release to Beta + Edge
-      if: github.event_name == 'release'
-      uses: snapcore/action-publish@v1
-      with:
-        store_login: ${{ secrets.SNAPSTORE_LOGIN }}
-        snap: ${{ steps.build.outputs.snap }}
-        release: edge,beta
   
   update_edge_release:
     name: Update Edge Release
