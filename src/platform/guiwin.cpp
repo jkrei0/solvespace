@@ -638,7 +638,9 @@ public:
             EGLBoolean initialized = EGL_FALSE;
             for(auto &platformType : {
                 // Try platform types from least to most amount of software translation required.
-                std::make_pair("OpenGL ES",   EGL_PLATFORM_ANGLE_TYPE_OPENGLES_ANGLE),
+                /* For some reason, AMD's drivers are still broken for me :/
+                   Removing this line fixes it.
+                std::make_pair("OpenGL ES",   EGL_PLATFORM_ANGLE_TYPE_OPENGLES_ANGLE), */
                 std::make_pair("OpenGL",      EGL_PLATFORM_ANGLE_TYPE_OPENGL_ANGLE),
                 std::make_pair("Direct3D 11", EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE),
                 std::make_pair("Direct3D 9",  EGL_PLATFORM_ANGLE_TYPE_D3D9_ANGLE),
