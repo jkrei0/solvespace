@@ -405,6 +405,10 @@ window.addEventListener('keydown', function(event) {
 
 /* Mnemonic behavior */
 window.addEventListener('keydown', function(event) {
+    // Solvespace uses *so many* keyboard shortcuts
+    // It's better to just call preventDefault() for everything
+    // It's not like it's accessible anyway :/
+    event.preventDefault();
     var withMnemonic;
     if(event.altKey && event.key == 'Alt') {
         addClass(document.body, 'mnemonic');
@@ -418,7 +422,9 @@ window.addEventListener('keydown', function(event) {
 });
 window.addEventListener('keyup', function(event) {
     if(event.key == 'Alt') {
-       removeClass(document.body, 'mnemonic');
+        // same logic as above for preventDefault()
+        event.preventDefault();
+        removeClass(document.body, 'mnemonic');
     }
 });
 
