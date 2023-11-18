@@ -708,6 +708,11 @@ class ScrollbarHelper {
         if (this.target) {
             // console.log("addEventListner scroll");
             this.target.parentElement.addEventListener('scroll', () => {
+                // Quick fix for the text-window scrollbar not working
+                // I think it's b/c this event happens even when the user did
+                // not initiate the scroll event, even though this script
+                // tries to prevent it with onScrollCallbackTicking
+                return;
                 if (this.onScrollCallbackTicking) {
                     return;
                 }
