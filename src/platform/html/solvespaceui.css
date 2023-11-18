@@ -1,5 +1,5 @@
 * {
-    font-family: sans;
+    font-family: sans-serif;
 }
 html, body {
     padding: 0;
@@ -146,12 +146,14 @@ main {
 }
 .menu > li.check.active::before {
     content: '\f14a';
+    color: #0c0;
 }
 .menu > li.radio::before {
     content: '\f111';
 }
 .menu > li.radio.active::before {
     content: '\f192';
+    color: #0c0;
 }
 
 /* Separator menu items */
