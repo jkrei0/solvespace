@@ -429,6 +429,16 @@ window.addEventListener('keyup', function(event) {
 });
 
 
+function preventMouseEvent(event) {
+    // prevent default for mouse events (like right-click and right-drag)
+    event.preventDefault();
+}
+window.addEventListener('mousedown',   preventMouseEvent);
+window.addEventListener('mouseup',     preventMouseEvent);
+window.addEventListener('mousemove',   preventMouseEvent);
+window.addEventListener('contextmenu', preventMouseEvent);
+
+
 // FIXME(emscripten): Should be implemnted in guihtmlcpp ?
 class FileUploadHelper {
     constructor() {
