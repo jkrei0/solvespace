@@ -445,9 +445,13 @@ class FileManagerUI {
         document.querySelector('body').appendChild(this.__dialogRootElement);
 
         this.__dialogHeaderElement.textContent = this.__dialogHeaderText || "File manager";
-        this.__descriptionElement.textContent = this.__descriptionText || "Select a file.";
+        this.__descriptionElement.textContent = this.__descriptionText || "Select a file. ";
         if (this.__extension_filters) {
-            this.__descriptionElement.textContent += "Requested filter is " + this.__extension_filters.join(", ");
+            this.__descriptionElement.innerHTML += "Requested filter is <code style='font-family:monospace'>" + this.__extension_filters.join(", ")
+                + `</code><span style="display:block;margin-bottom:-30px">
+                    <span style="color:yellow">WARNING</span>:
+                    Files are saved in memory only! Reloading the page will cause them to be lost!
+                </span>`;
         }
 
         if (this.__isOpenDialog && this.__extension_filters) {
