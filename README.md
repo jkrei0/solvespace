@@ -193,7 +193,7 @@ After that, build SolveSpace as following:
 ```sh
 mkdir build
 cd build
-emcmake cmake .. -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO="ON" -DENABLE_TESTS="OFF" -DENABLE_CLI="OFF" -DENABLE_COVERAGE="OFF"
+emcmake cmake .. -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO="ON" -DENABLE_TESTS="OFF" -DENABLE_CLI="OFF" -DENABLE_COVERAGE="OFF" -DCMAKE_CXX_FLAGS="-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['\$allocate','\$ALLOC_NORMAL']"
 make
 ```
 
