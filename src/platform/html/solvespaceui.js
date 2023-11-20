@@ -405,10 +405,6 @@ window.addEventListener('keydown', function(event) {
 
 /* Mnemonic behavior */
 window.addEventListener('keydown', function(event) {
-    // Solvespace uses *so many* keyboard shortcuts
-    // It's better to just call preventDefault() for everything
-    // It's not like it's accessible anyway :/
-    event.preventDefault();
     var withMnemonic;
     if(event.altKey && event.key == 'Alt') {
         addClass(document.body, 'mnemonic');
@@ -422,22 +418,32 @@ window.addEventListener('keydown', function(event) {
 });
 window.addEventListener('keyup', function(event) {
     if(event.key == 'Alt') {
-        // same logic as above for preventDefault()
-        event.preventDefault();
         removeClass(document.body, 'mnemonic');
     }
 });
 
 
-function preventMouseEvent(event) {
-    // prevent default for mouse events (like right-click and right-drag)
-    event.preventDefault();
-}
-window.addEventListener('mousedown',   preventMouseEvent);
-window.addEventListener('mouseup',     preventMouseEvent);
-window.addEventListener('mousemove',   preventMouseEvent);
-window.addEventListener('contextmenu', preventMouseEvent);
-
+setTimeout(()=>{
+    // Use a timeout to run this *after* all the other initialization code.
+    function preventEvent(event) {
+        if (event.buttons % 2 === 1) {
+            // left click, don't prevent
+            return;
+        }
+        if (document.activeElement && !event.ctrlKey && !event.altKey) {
+            // focus is on an element, and we're just typing, so don't prevent
+            return;
+        }
+        // prevent default for mouse events (like right-click and right-drag)
+        event.preventDefault();
+    }
+    document.body.addEventListener('keyup',        preventEvent);
+    document.body.addEventListener('keydown',      preventEvent);
+    document.body.addEventListener('mousedown',    preventEvent);
+    document.body.addEventListener('mouseup',      preventEvent);
+    document.body.addEventListener('mousemove',    preventEvent);
+    document.body.addEventListener('contextmenu',  preventEvent);
+});
 
 // FIXME(emscripten): Should be implemented in guihtmlcpp ?
 class FileUploadHelper {
