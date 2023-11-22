@@ -598,21 +598,19 @@ hEntity GraphicsWindow::SplitEntity(hEntity he, Vector pinter) {
 
     // Finally, delete the request that generated the original entity.
     Request::Type reqType = EntReqTable::GetRequestForEntity(entityType);
-    SK.request.ClearTags();
     for(auto &r : SK.request) {
         if(r.group != activeGroup)
             continue;
         if(r.type != reqType)
             continue;
 
-        // If the user wants to keep the old entities around, they can just
-        // mark them construction first.
+        // Mark deleted entities as construction (matches tangent arc at point)
+        // Not sure why this isn't the default behavior.
         if(he == r.h.entity(0) && !r.construction) {
-            r.tag = 1;
+            r.construction = true;
             break;
         }
     }
-    DeleteTaggedRequests();
 
     return ret;
 }
