@@ -69,7 +69,9 @@ static void CallStdFunction(void *data) {
 }
 
 static val Wrap(std::function<void()> *func) {
-    EM_ASM($Wrap$ret = Module.dynCall_vi.bind(null, $0, $1), CallStdFunction, func);
+    EM_ASM({
+        $Wrap$ret = function() { Module.dynCall_vi($0, $1); };
+    }, CallStdFunction, func);
     return val::global("window")["$Wrap$ret"];
 }
 
